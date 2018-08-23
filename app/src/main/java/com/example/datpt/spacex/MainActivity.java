@@ -21,10 +21,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         toolbar = getSupportActionBar();
-        toolbar.setTitle("SpaceX");
 
+        toolbar.getElevation();
+        toolbar.setDisplayUseLogoEnabled(true);
         loadFragment(new HomeFragment());
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
@@ -50,17 +50,17 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.person_nav:
-                    toolbar.setTitle("Cá Nhân");
+//                    toolbar.setTitle("Cá Nhân");
                     fragment = new PersonFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.home_nav:
-                    toolbar.setTitle("Trang Chủ");
+//                    toolbar.setTitle("Trang Chủ");
                     fragment = new HomeFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.like_nav:
-                    toolbar.setTitle("Yêu Thích");
+//                    toolbar.setTitle("Yêu Thích");
                     fragment = new LikeFragment();
                     loadFragment(fragment);
                     return true;
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                
+
 
                 return false;
             }
@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
-
 
 
 }
