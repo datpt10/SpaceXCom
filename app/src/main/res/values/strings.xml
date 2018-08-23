@@ -1,0 +1,12 @@
+<resources>
+    <string name="app_name">SpaceX</string>
+    <string name="title_person">Cá Nhân</string>
+    <string name="title_home">Trang Chủ</string>
+    <string name="title_like">Yêu Thích</string>
+
+    <string name="action_add_favourite">Add to Favourites</string>
+    <string name="action_play_next">Play Next</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
