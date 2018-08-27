@@ -10,6 +10,6 @@
         android:title="@string/title_home" />
     <item
         android:id="@+id/like_nav"
-        android:icon="@drawable/ic_cloud_download_black_24dp"
+        android:icon="@drawable/ic_featured_play_list_black_24dp"
         android:title="@string/title_like" />
 </menu>

@@ -26,6 +26,12 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
     private InterfaceAlbumCustom clickAlbum = null;
 
 
+    public AlbumsAdapter(Context mfrHome, List<Album> albumList , InterfaceAlbumCustom interfaceAlbumCustom) {
+        this.mContext = mfrHome;
+        this.albumsList = albumList;
+        this.clickAlbum = interfaceAlbumCustom;
+    }
+
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(R.layout.album_card, parent, false);
         final MyViewHolder viewHolder = new MyViewHolder(itemView);
@@ -38,11 +44,11 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
         return viewHolder;
     }
-
-
     public class MyViewHolder extends RecyclerView.ViewHolder {
+
         public View v;
         public TextView name, numOfSong;
+
         public ImageView thumbnail, overflow;
 
         public MyViewHolder(View view) {
@@ -55,12 +61,6 @@ public class AlbumsAdapter extends RecyclerView.Adapter<AlbumsAdapter.MyViewHold
 
     }
 
-
-    public AlbumsAdapter(Context mfrHome, List<Album> albumList , InterfaceAlbumCustom interfaceAlbumCustom) {
-        this.mContext = mfrHome;
-        this.albumsList = albumList;
-        this.clickAlbum = interfaceAlbumCustom;
-    }
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {

@@ -1,4 +1,4 @@
-package com.example.datpt.spacex;
+package com.example.datpt.spacex.Fragment;
 
 
 import android.content.Intent;
@@ -16,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.datpt.spacex.ActivityPlay;
+import com.example.datpt.spacex.R;
 import com.example.datpt.spacex.adapter.AlbumsAdapter;
 import com.example.datpt.spacex.inter.InterfaceAlbumCustom;
 import com.example.datpt.spacex.item.Album;
@@ -70,7 +72,7 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         recyclerView.addItemDecoration(new HomeFragment.GridSpacingItemDecoration(2, dpTopx(10), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setNestedScrollingEnabled(true);
 
         prepareAlbum();
 

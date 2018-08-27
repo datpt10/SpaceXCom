@@ -12,6 +12,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
 
+import com.example.datpt.spacex.Fragment.HomeFragment;
+import com.example.datpt.spacex.Fragment.LikeFragment;
+import com.example.datpt.spacex.Fragment.PersonFragment;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 public class MainActivity extends AppCompatActivity {
 
     private ActionBar toolbar;
@@ -22,7 +32,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         toolbar = getSupportActionBar();
-
         toolbar.getElevation();
         toolbar.setDisplayUseLogoEnabled(true);
         loadFragment(new HomeFragment());
@@ -33,6 +42,10 @@ public class MainActivity extends AppCompatActivity {
 //        attaching bottom sheet behaviour - hide/show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
+
+
+
+
 
 
     }
@@ -79,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("Song");
+//                firebaseDatabase.addListenerForSingleValueEvent(valueEventListener);
+
+                Query query1 = FirebaseDatabase.getInstance().getReference("Song")
+                        .orderByChild("name");
+                query1.addListenerForSingleValueEvent(valueEventListener);
+
                 return false;
             }
 
@@ -92,6 +112,22 @@ public class MainActivity extends AppCompatActivity {
 
         return true;
     }
+
+    ValueEventListener valueEventListener = new ValueEventListener() {
+        @Override
+        public void onDataChange(DataSnapshot dataSnapshot) {
+            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                //TODO get the data here
+
+            }
+
+        }
+
+        @Override
+        public void onCancelled(DatabaseError databaseError) {
+
+        }
+    };
 
 
 }
