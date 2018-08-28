@@ -24,7 +24,8 @@
                 android:id="@+id/profilePic"
                 android:layout_width="@dimen/feed_item_profile_pic"
                 android:layout_height="@dimen/feed_item_profile_pic"
-                android:scaleType="fitCenter"/>
+                android:background="@drawable/custom_button"
+                android:scaleType="fitCenter" />
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -72,8 +73,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/white"
-            android:scaleType="fitXY"
-             />
+            android:scaleType="fitXY" />
     </LinearLayout>
 
 </LinearLayout>

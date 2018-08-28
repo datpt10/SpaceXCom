@@ -14,27 +14,23 @@ import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
+import com.bumptech.glide.Glide;
 import com.example.datpt.spacex.FeedImageView;
-import com.example.datpt.spacex.Fragment.LikeFragment;
 import com.example.datpt.spacex.LikeController;
 import com.example.datpt.spacex.R;
 import com.example.datpt.spacex.item.Like;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> {
     private Context context;
     private ArrayList likeList;
     ImageLoader imageLoader = LikeController.getmController().getmImageLoader();
 
-
     public LikeAdapter(Context context, ArrayList<Like> likeList) {
         this.context = context;
         this.likeList = likeList;
     }
-
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -59,12 +55,8 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
             url = (TextView) itemView.findViewById(R.id.txtUrl);
             profilePic = (NetworkImageView) itemView.findViewById(R.id.profilePic);
             feedImageView = (FeedImageView) itemView.findViewById(R.id.feedImage1);
-
-
         }
-
     }
-
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 //        if (imageLoader == null)
@@ -87,7 +79,6 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
             holder.statusMsg.setVisibility(View.GONE);
         }
 
-
         // Checking for null feed url
         if (like.getUrl() != null) {
             holder.url.setText(Html.fromHtml("<a href=\"" + like.getUrl() + "\">"
@@ -103,8 +94,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
 
         // user profile pic
         holder.profilePic.setImageUrl(like.getProfilePic(), imageLoader);
-
-        // Feed image
+//         Feed image
         if (like.getImage() != null) {
             holder.feedImageView.setImageUrl(like.getImage(), imageLoader);
             holder.feedImageView.setVisibility(View.VISIBLE);
@@ -121,7 +111,6 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
         } else {
             holder.feedImageView.setVisibility(View.GONE);
         }
-
     }
 
     @Override

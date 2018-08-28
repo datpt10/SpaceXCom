@@ -8,5 +8,24 @@
     <string name="action_play_next">Play Next</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="frag_login">Đăng nhập</string>
+
+    <!-- Navigation Drawer menu labels -->
+    <string name="frag_home">Trang chủ</string>
+    <string name="frag_playlist">Playlist</string>
+    <string name="frag_song">Bài hát</string>
+    <string name="frag_singer">Ca sĩ</string>
+    <string name="frag_settings">Cài đặt</string>
+    <string name="frag_about_us">About us</string>
+
+    <!-- Toolbar titles when navigation menu item is selected -->
+    <!--<string-array name="nav_item_activity_titles">-->
+        <!--<item>Trang chủ</item>-->
+        <!--<item>Playlist</item>-->
+        <!--<item>Bài hát</item>-->
+        <!--<item>Cài Đặt</item>-->
+        <!--<item>About us</item>-->
+    <!--</string-array>-->
+
 </resources>

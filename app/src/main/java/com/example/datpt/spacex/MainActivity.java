@@ -34,18 +34,17 @@ public class MainActivity extends AppCompatActivity {
         toolbar = getSupportActionBar();
         toolbar.getElevation();
         toolbar.setDisplayUseLogoEnabled(true);
+
         loadFragment(new HomeFragment());
 
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
 
+        navigation.setSelectedItemId(R.id.home_nav);
+
 //        attaching bottom sheet behaviour - hide/show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-
-
-
-
 
 
     }
@@ -62,14 +61,14 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment fragment;
             switch (item.getItemId()) {
-                case R.id.person_nav:
-//                    toolbar.setTitle("Cá Nhân");
-                    fragment = new PersonFragment();
-                    loadFragment(fragment);
-                    return true;
                 case R.id.home_nav:
 //                    toolbar.setTitle("Trang Chủ");
                     fragment = new HomeFragment();
+                    loadFragment(fragment);
+                    return true;
+                case R.id.person_nav:
+//                    toolbar.setTitle("Cá Nhân");
+                    fragment = new PersonFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.like_nav:

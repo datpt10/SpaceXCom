@@ -1,14 +1,231 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment.PersonFragment">
+    android:orientation="vertical"
+    tools:context=".PersonFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <RelativeLayout
+        android:id="@+id/re_login"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:paddingLeft="10dp">
+
+        <ImageView
+            android:id="@+id/img_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/custom_button"
+            android:src="@drawable/ic_login_black_24dp" />
+
+        <TextView
+            android:id="@+id/tv_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:layout_toRightOf="@+id/img_login"
+            android:fontFamily="@font/neosan"
+            android:paddingLeft="10dp"
+            android:text="@string/frag_login"
+            android:textColor="#dd000000"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/img_login_next"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:background="@drawable/custom_hide"
+            android:paddingRight="5dp"
+            android:src="@drawable/ic__next_black_24dp" />
+    </RelativeLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:background="@drawable/background" />
+
+    <LinearLayout
+        android:id="@+id/li_person"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical"
+        android:paddingTop="20sp">
 
-</FrameLayout>
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:id="@+id/img_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/custom_button"
+                android:src="@drawable/ic_home_black_24dp" />
+
+            <TextView
+                android:id="@+id/tv_home"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img_home"
+                android:fontFamily="@font/neosan"
+                android:paddingLeft="10dp"
+                android:text="@string/frag_home"
+                android:textColor="#dd000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_playlist"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:id="@+id/img_playlit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/custom_button"
+                android:src="@drawable/ic_playlist_black_24dp" />
+
+            <TextView
+                android:id="@+id/tv_playlist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img_playlit"
+                android:fontFamily="@font/neosan"
+                android:paddingLeft="10dp"
+                android:text="@string/frag_playlist"
+                android:textColor="#dd000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_song"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:id="@+id/img_song"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/custom_button"
+                android:src="@drawable/ic_song_black_24dp" />
+
+            <TextView
+                android:id="@+id/tv_song"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img_song"
+                android:fontFamily="@font/neosan"
+                android:paddingLeft="10dp"
+                android:text="@string/frag_song"
+                android:textColor="#dd000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_singer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:id="@+id/img_singer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/custom_button"
+                android:src="@drawable/ic_person_black_24dp" />
+
+            <TextView
+                android:id="@+id/tv_singer"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img_singer"
+                android:fontFamily="@font/neosan"
+                android:paddingLeft="10dp"
+                android:text="@string/frag_singer"
+                android:textColor="#dd000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:id="@+id/img_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/custom_button"
+                android:src="@drawable/ic_settings_black_24dp" />
+
+            <TextView
+                android:id="@+id/tv_settings"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img_settings"
+                android:fontFamily="@font/neosan"
+                android:paddingLeft="10dp"
+                android:text="@string/frag_settings"
+                android:textColor="#dd000000" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/re_about"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingLeft="10dp">
+
+            <ImageView
+                android:id="@+id/img_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:background="@drawable/custom_button"
+                android:src="@drawable/ic_about_black_24dp" />
+
+            <TextView
+                android:id="@+id/tv_about"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_toRightOf="@+id/img_about"
+                android:fontFamily="@font/neosan"
+                android:paddingLeft="10dp"
+                android:text="@string/frag_about_us"
+                android:textColor="#dd000000" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</LinearLayout>
