@@ -32,7 +32,6 @@ import java.util.List;
 
 
 public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
-
     DatabaseReference mData;
     FirebaseDatabase mFirebaseDatabase;
     RecyclerView recyclerView;
@@ -69,10 +68,11 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
 
-        recyclerView.addItemDecoration(new HomeFragment.GridSpacingItemDecoration(2, dpTopx(10), true));
+        recyclerView.addItemDecoration(new HomeFragment.GridSpacingItemDecoration(2, dpTopx(1), true));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
         recyclerView.setNestedScrollingEnabled(true);
+
 
         prepareAlbum();
 
@@ -124,9 +124,7 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         Intent intent = new Intent(getActivity(), ActivityPlay.class);
         intent.putExtra("name", name);
         startActivity(intent);
-
     }
-
 
     //    RecyclerView item decoration - give equal margin around grid item
     public class GridSpacingItemDecoration extends RecyclerView.ItemDecoration {
@@ -172,6 +170,9 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
+
+
+
 
 
 }

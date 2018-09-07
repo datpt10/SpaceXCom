@@ -10,6 +10,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -19,6 +20,7 @@ import com.example.datpt.spacex.FeedImageView;
 import com.example.datpt.spacex.LikeController;
 import com.example.datpt.spacex.R;
 import com.example.datpt.spacex.item.Like;
+import com.mikhaellopez.circularimageview.CircularImageView;
 
 import java.util.ArrayList;
 
@@ -43,7 +45,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView name, timestamp, statusMsg, url;
-        NetworkImageView profilePic;
+        CircularImageView profilePic;
         FeedImageView feedImageView;
 
         public MyViewHolder(View itemView) {
@@ -53,7 +55,7 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
             timestamp = (TextView) itemView.findViewById(R.id.timestamp);
             statusMsg = (TextView) itemView.findViewById(R.id.txtStatusMsg);
             url = (TextView) itemView.findViewById(R.id.txtUrl);
-            profilePic = (NetworkImageView) itemView.findViewById(R.id.profilePic);
+            profilePic = (CircularImageView) itemView.findViewById(R.id.profilePic);
             feedImageView = (FeedImageView) itemView.findViewById(R.id.feedImage1);
         }
     }
@@ -78,12 +80,10 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
             // status is empty, remove from view
             holder.statusMsg.setVisibility(View.GONE);
         }
-
         // Checking for null feed url
         if (like.getUrl() != null) {
             holder.url.setText(Html.fromHtml("<a href=\"" + like.getUrl() + "\">"
                     + like.getUrl() + "</a> "));
-
             // Making url clickable
             holder.url.setMovementMethod(LinkMovementMethod.getInstance());
             holder.url.setVisibility(View.VISIBLE);
@@ -91,9 +91,8 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
             // url is null, remove from the view
             holder.url.setVisibility(View.GONE);
         }
-
         // user profile pic
-        holder.profilePic.setImageUrl(like.getProfilePic(), imageLoader);
+        Glide.with(context).load(like.getProfilePic()).into(holder.profilePic);
 //         Feed image
         if (like.getImage() != null) {
             holder.feedImageView.setImageUrl(like.getImage(), imageLoader);
@@ -112,7 +111,6 @@ public class LikeAdapter extends RecyclerView.Adapter<LikeAdapter.MyViewHolder> 
             holder.feedImageView.setVisibility(View.GONE);
         }
     }
-
     @Override
     public int getItemCount() {
         return likeList.size();

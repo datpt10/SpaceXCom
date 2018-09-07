@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.SearchView;
@@ -31,9 +32,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toolbar = getSupportActionBar();
-        toolbar.getElevation();
-        toolbar.setDisplayUseLogoEnabled(true);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_show);
+        setSupportActionBar(toolbar);
+
 
         loadFragment(new HomeFragment());
 
@@ -45,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
 //        attaching bottom sheet behaviour - hide/show on scroll
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) navigation.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-
 
     }
 
@@ -62,17 +63,14 @@ public class MainActivity extends AppCompatActivity {
             Fragment fragment;
             switch (item.getItemId()) {
                 case R.id.home_nav:
-//                    toolbar.setTitle("Trang Chủ");
                     fragment = new HomeFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.person_nav:
-//                    toolbar.setTitle("Cá Nhân");
                     fragment = new PersonFragment();
                     loadFragment(fragment);
                     return true;
                 case R.id.like_nav:
-//                    toolbar.setTitle("Yêu Thích");
                     fragment = new LikeFragment();
                     loadFragment(fragment);
                     return true;
@@ -80,53 +78,5 @@ public class MainActivity extends AppCompatActivity {
             return false;
         }
     };
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.search, menu);
-        MenuItem itemSearch = menu.findItem(R.id.searchView);
-        searchView = (SearchView) itemSearch.getActionView();
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                DatabaseReference firebaseDatabase = FirebaseDatabase.getInstance().getReference("Song");
-//                firebaseDatabase.addListenerForSingleValueEvent(valueEventListener);
-
-                Query query1 = FirebaseDatabase.getInstance().getReference("Song")
-                        .orderByChild("name");
-                query1.addListenerForSingleValueEvent(valueEventListener);
-
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-
-
-                return false;
-            }
-        });
-
-        return true;
-    }
-
-    ValueEventListener valueEventListener = new ValueEventListener() {
-        @Override
-        public void onDataChange(DataSnapshot dataSnapshot) {
-            for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                //TODO get the data here
-
-            }
-
-        }
-
-        @Override
-        public void onCancelled(DatabaseError databaseError) {
-
-        }
-    };
-
 
 }

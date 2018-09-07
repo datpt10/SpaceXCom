@@ -48,27 +48,27 @@
             android:orientation="horizontal">
 
             <ImageButton
-                android:id="@+id/btn_previous"
+                android:id="@+id/btn_rewindnoti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="8sp"
-                android:background="@drawable/rewind" />
+                android:background="@drawable/ic_fast_rewind_black_36dp" />
 
             <ImageButton
-                android:id="@+id/btn_play_pauseNoti"
+                android:id="@+id/btn_play_pausenoti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="15sp"
-                android:background="@drawable/play" />
+                android:background="@drawable/ic_play_circle_outline_black_48dp" />
 
             <ImageButton
-                android:id="@+id/btn_next"
+                android:id="@+id/btn_forwardnoti"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginHorizontal="8sp"
-                android:background="@drawable/foward" />
+                android:background="@drawable/ic_fast_forward_black_36dp" />
 
 
         </LinearLayout>

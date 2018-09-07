@@ -17,10 +17,10 @@ import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.datpt.spacex.LikeController;
-import com.example.datpt.spacex.MainActivity;
 import com.example.datpt.spacex.R;
 import com.example.datpt.spacex.adapter.LikeAdapter;
 import com.example.datpt.spacex.item.Like;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -41,6 +41,8 @@ public class LikeFragment extends Fragment {
     private LikeAdapter adapter;
     String URL_NEW = "https://firebasestorage.googleapis.com/v0/b/halo-b3655.appspot.com/o/new.json?alt=media&token=8944df59-8803-4bed-8882-b7d92e19f83b";
 
+    private ShimmerFrameLayout mShimmerViewContainer;
+
     public LikeFragment() {
         // Required empty public constructor
     }
@@ -50,6 +52,8 @@ public class LikeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_like, container, false);
+
+        mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
         recyclerView = (RecyclerView) view.findViewById(R.id.lv_like);
         arrayList = new ArrayList<Like>();
@@ -117,8 +121,8 @@ public class LikeFragment extends Fragment {
                 like.setName(object.getString("name"));
 
                 // Image might be null sometimes
-                String image = object.isNull("image") ? null : object.getString("image");
-                like.setImage(image);
+                //String image = object.isNull("image") ? null : object.getString("image");
+                like.setImage(object.getString("image"));
                 like.setStatus(object.getString("status"));
                 like.setProfilePic(object.getString("profilePic"));
                 like.setTimeStamp(object.getString("timeStamp"));
@@ -132,9 +136,27 @@ public class LikeFragment extends Fragment {
 
             // notify data changes to list adapater
             adapter.notifyDataSetChanged();
+
+            // stop animating Shimmer and hide the layout
+            mShimmerViewContainer.stopShimmerAnimation();
+            mShimmerViewContainer.setVisibility(View.GONE);
+
         } catch (JSONException e) {
             e.printStackTrace();
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mShimmerViewContainer.startShimmerAnimation();
+    }
+
+    @Override
+    public void onPause() {
+        mShimmerViewContainer.stopShimmerAnimation();
+        super.onPause();
+    }
+
 
 }

@@ -1,62 +1,169 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/song_play_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical"
-    android:paddingBottom="7dp"
-    android:paddingLeft="7dp"
-    android:paddingRight="7dp">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <android.support.v7.widget.CardView
+    <LinearLayout
+        android:id="@+id/li_mp3_show"
         android:layout_width="match_parent"
-        android:layout_height="110dp"
-        android:layout_marginBottom="10dp"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp">
+        android:layout_height="70dp"
+        android:background="@color/colorBackground"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tv_nameSong_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/neosan"
+                    android:text="Ten BH"
+                    android:textColor="#757575"
+                    android:textSize="18dp" />
+
+                <TextView
+                    android:id="@+id/tv_singer_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/neosan"
+                    android:text="ten ca si"
+                    android:textColor="#757575"
+                    android:textSize="15dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
+
+                <ImageButton
+                    android:id="@+id/img_previous_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_skip_previous_black_36dp" />
+
+                <ImageButton
+                    android:id="@+id/img_play_pause_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_play_circle_outline_black_48dp" />
+
+                <ImageButton
+                    android:id="@+id/img_next_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_skip_next_black_36dp" />
+            </LinearLayout>
+        </RelativeLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_SingerMp3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:fontFamily="@font/neosan"
+            android:paddingTop="30dp"
+            android:text="Ten Ca Si"
+            android:textColor="#757575"
+            android:textSize="21dp"
+            android:textStyle="bold" />
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="5">
+
+            <com.example.datpt.spacex.CircularSeekBar
+                android:id="@+id/seekbar"
+                android:layout_width="290dp"
+                android:layout_height="290dp"
+                android:layout_gravity="center"
+                android:paddingLeft="6dp"
+                android:paddingRight="6dp"
+                app:circle_color="#757575"
+                app:circle_progress_color="@color/colorAccent"
+                app:circle_stroke_width="3dp"
+                app:pointer_color="@color/colorAccent"
+                app:pointer_halo_color="@color/colorAccent"
+                app:pointer_halo_color_ontouch="@color/colorAccent"
+                app:pointer_radius="1dp" />
+
+            <com.mikhaellopez.circularimageview.CircularImageView
+                android:id="@+id/img_play_view"
+                android:layout_width="270dp"
+                android:layout_height="270dp"
+                android:layout_gravity="center"
+                android:clickable="false"
+                android:scaleType="centerCrop"
+                android:src="@drawable/backgroundmp3" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#4b000000"
-            android:orientation="vertical">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingBottom="20sp"
+            android:paddingTop="20sp">
 
-            <SeekBar
-                android:id="@+id/seekbar"
-                android:layout_width="match_parent"
+            <TextView
+                android:id="@+id/tv_baihat"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:layout_weight="1"
-                android:paddingLeft="6dp"
-                android:paddingRight="6dp" />
+                android:fontFamily="@font/neosan"
+                android:text="Tenbaihay"
+                android:textColor="#757575"
+                android:textSize="20sp"
+                android:textStyle="bold" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/tv_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/neosan"
+                android:text="thoi luong bh"
+                android:textColor="#757575" />
+        </LinearLayout>
 
-                <TextView
-                    android:id="@+id/tv_baihat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:fontFamily="@font/neosan"
-                    android:paddingLeft="20sp"
-                    android:text="Tenbaihay"
-                    android:textColor="#ffff"
-                    android:textSize="16sp"
-                    android:textStyle="normal" />
-
-                <TextView
-                    android:id="@+id/tv_duration"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="@font/neosan"
-                    android:paddingRight="20sp"
-                    android:text="thoi luong bh"
-                    android:textColor="#ffff" />
-            </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="20sp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,41 +173,55 @@
                 android:orientation="horizontal">
 
                 <ImageButton
-                    android:id="@+id/btn_shuffle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20sp"
-                    android:background="@drawable/shuffle" />
-
-                <ImageButton
-                    android:id="@+id/btn_rewind"
+                    android:id="@+id/btn_previous"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8sp"
-                    android:background="@drawable/rewind" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_previous_black_36dp" />
 
                 <ImageButton
                     android:id="@+id/btn_play_pause"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="15sp"
-                    android:background="@drawable/play" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_pause_circle_filled_black_60dp" />
 
                 <ImageButton
-                    android:id="@+id/btn_forward"
+                    android:id="@+id/btn_next"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="8sp"
-                    android:background="@drawable/foward" />
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_next_black_36dp" />
 
-                <ImageButton
-                    android:id="@+id/btn_repeat"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginHorizontal="20sp"
-                    android:background="@drawable/repeat" />
             </LinearLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="@dimen/padding_10">
+
+                <ImageButton
+                    android:id="@+id/btn_shuffle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_marginHorizontal="20sp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_shuffle_black_28dp" />
+
+                <ImageButton
+                    android:id="@+id/btn_favorite"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginHorizontal="20sp"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:src="@drawable/ic_favorite_border_black_28dp" />
+
+            </RelativeLayout>
         </LinearLayout>
-    </android.support.v7.widget.CardView>
+    </LinearLayout>
 </LinearLayout>

@@ -19,13 +19,4 @@
     <string name="frag_settings">Cài đặt</string>
     <string name="frag_about_us">About us</string>
 
-    <!-- Toolbar titles when navigation menu item is selected -->
-    <!--<string-array name="nav_item_activity_titles">-->
-        <!--<item>Trang chủ</item>-->
-        <!--<item>Playlist</item>-->
-        <!--<item>Bài hát</item>-->
-        <!--<item>Cài Đặt</item>-->
-        <!--<item>About us</item>-->
-    <!--</string-array>-->
-
 </resources>

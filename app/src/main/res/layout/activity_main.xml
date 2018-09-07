@@ -7,12 +7,20 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/frame_container"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+        android:orientation="vertical">
 
+        <include layout="@layout/title" />
+
+        <FrameLayout
+            android:id="@+id/frame_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+    </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

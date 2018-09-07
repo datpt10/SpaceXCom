@@ -23,14 +23,11 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnPrepa
     @Override
     public void onCreate() {
         super.onCreate();
-
     }
 
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        mediaPlayer.release();
-        mediaPlayer = new MediaPlayer();
     }
 
     @Override
@@ -62,5 +59,7 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnPrepa
         mediaPlayer.stop();
         mediaPlayer.release();
     }
+
+
 
 }
