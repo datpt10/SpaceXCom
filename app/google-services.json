@@ -1,27 +1,30 @@
 {
   "project_info": {
-    "project_number": "1002369344713",
-    "firebase_url": "https://halo-b3655.firebaseio.com",
-    "project_id": "halo-b3655",
-    "storage_bucket": "halo-b3655.appspot.com"
+    "project_number": "41101316456",
+    "firebase_url": "https://spacex-3d616.firebaseio.com",
+    "project_id": "spacex-3d616",
+    "storage_bucket": "spacex-3d616.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1002369344713:android:b256098bc25ca100",
+        "mobilesdk_app_id": "1:41101316456:android:09fd11aeccbadfd3",
         "android_client_info": {
-          "package_name": "com.example.datpt.f5m"
+          "package_name": "com.example.datpt.spacex"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1002369344713-jp9b7lq0intd38cp0boojnlsvdhhi64t.apps.googleusercontent.com",
+          "client_id": "41101316456-f4h9kvadoerv6qn7kvso36c2duo33i55.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDByDvIxeXrsmjp3Q77RQzDRn3VEtlOxDo"
+          "current_key": "AIzaSyAOn4VcXsTW88AqWznjh6f-6sZPh-kEpWM"
+        },
+        {
+          "current_key": "AIzaSyAOn4VcXsTW88AqWznjh6f-6sZPh-kEpWM"
         }
       ],
       "services": {
@@ -31,94 +34,6 @@
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1002369344713:android:191762009b3c5cd4",
-        "android_client_info": {
-          "package_name": "com.example.datpt.halo"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1002369344713-21opakrmhfb823nob0s8c6sdp10mlrfu.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.datpt.halo",
-            "certificate_hash": "69e10d5cbcc39348c77d6a9400c99abf82e7ab0b"
-          }
-        },
-        {
-          "client_id": "1002369344713-jp9b7lq0intd38cp0boojnlsvdhhi64t.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDByDvIxeXrsmjp3Q77RQzDRn3VEtlOxDo"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1002369344713-jp9b7lq0intd38cp0boojnlsvdhhi64t.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        },
-        "ads_service": {
-          "status": 2
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:1002369344713:android:09fd11aeccbadfd3",
-        "android_client_info": {
-          "package_name": "com.example.datpt.spacex"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "1002369344713-r59j0up6io193jclavm21ar2k7gbesum.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.example.datpt.spacex",
-            "certificate_hash": "69e10d5cbcc39348c77d6a9400c99abf82e7ab0b"
-          }
-        },
-        {
-          "client_id": "1002369344713-jp9b7lq0intd38cp0boojnlsvdhhi64t.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDByDvIxeXrsmjp3Q77RQzDRn3VEtlOxDo"
-        }
-      ],
-      "services": {
-        "analytics_service": {
-          "status": 1
-        },
-        "appinvite_service": {
-          "status": 2,
-          "other_platform_oauth_client": [
-            {
-              "client_id": "1002369344713-jp9b7lq0intd38cp0boojnlsvdhhi64t.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
         },
         "ads_service": {
           "status": 2

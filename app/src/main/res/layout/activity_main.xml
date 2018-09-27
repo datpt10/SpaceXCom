@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
@@ -7,20 +7,32 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="match_parent">
 
-        <include layout="@layout/title" />
+        <include
+            android:id="@+id/searchView_list"
+            layout="@layout/search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <FrameLayout
             android:id="@+id/frame_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@+id/searchView_list"
             app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-    </LinearLayout>
+
+    </RelativeLayout>
+
+    <include
+        layout="@layout/play_mp3_show"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/navigation"
+        android:visibility="gone" />
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
@@ -32,4 +44,4 @@
         app:itemTextColor="@android:color/black"
         app:menu="@menu/navigation" />
 
-</android.support.design.widget.CoordinatorLayout>
+</RelativeLayout>

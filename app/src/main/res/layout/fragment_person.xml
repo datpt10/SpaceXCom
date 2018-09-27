@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".PersonFragment">
+    android:scrollbars="vertical">
 
     <RelativeLayout
         android:id="@+id/re_login"
@@ -52,17 +51,18 @@
         android:background="@drawable/background" />
 
     <LinearLayout
-        android:id="@+id/li_person"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="20sp">
 
         <RelativeLayout
+            android:id="@+id/re_home"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp">
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp">
 
             <ImageView
                 android:id="@+id/img_home"
@@ -85,40 +85,14 @@
 
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/re_playlist"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp">
-
-            <ImageView
-                android:id="@+id/img_playlit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/custom_button"
-                android:src="@drawable/ic_playlist_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_playlist"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@+id/img_playlit"
-                android:fontFamily="@font/neosan"
-                android:paddingLeft="10dp"
-                android:text="@string/frag_playlist"
-                android:textColor="#dd000000" />
-
-        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/re_song"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp">
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp">
 
             <ImageView
                 android:id="@+id/img_song"
@@ -136,35 +110,7 @@
                 android:layout_toRightOf="@+id/img_song"
                 android:fontFamily="@font/neosan"
                 android:paddingLeft="10dp"
-                android:text="@string/frag_song"
-                android:textColor="#dd000000" />
-
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/re_singer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp">
-
-            <ImageView
-                android:id="@+id/img_singer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:background="@drawable/custom_button"
-                android:src="@drawable/ic_person_black_24dp" />
-
-            <TextView
-                android:id="@+id/tv_singer"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@+id/img_singer"
-                android:fontFamily="@font/neosan"
-                android:paddingLeft="10dp"
-                android:text="@string/frag_singer"
+                android:text="@string/frag_playlist"
                 android:textColor="#dd000000" />
 
         </RelativeLayout>
@@ -173,8 +119,9 @@
             android:id="@+id/re_setting"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp">
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp">
 
             <ImageView
                 android:id="@+id/img_settings"
@@ -200,8 +147,9 @@
             android:id="@+id/re_about"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:paddingLeft="10dp">
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="15dp">
 
             <ImageView
                 android:id="@+id/img_about"
@@ -221,6 +169,27 @@
                 android:paddingLeft="10dp"
                 android:text="@string/frag_about_us"
                 android:textColor="#dd000000" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingBottom="15dp"
+            android:paddingLeft="10dp"
+            android:paddingTop="10dp">
+
+            <TextView
+                android:id="@+id/tv_about_show"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginRight="@dimen/padding_10"
+                android:fontFamily="@font/neosan"
+                android:textAlignment="center"
+                android:textColor="#dd000000"
+                android:textSize="20dp"
+                android:textStyle="bold" />
 
         </RelativeLayout>
 

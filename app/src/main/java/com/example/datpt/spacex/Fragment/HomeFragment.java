@@ -1,6 +1,5 @@
 package com.example.datpt.spacex.Fragment;
 
-
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
@@ -18,7 +17,7 @@ import android.view.ViewGroup;
 
 import com.example.datpt.spacex.ActivityPlay;
 import com.example.datpt.spacex.R;
-import com.example.datpt.spacex.adapter.AlbumsAdapter;
+import com.example.datpt.spacex.adapter.HomeAdapter;
 import com.example.datpt.spacex.inter.InterfaceAlbumCustom;
 import com.example.datpt.spacex.item.Album;
 import com.google.firebase.database.ChildEventListener;
@@ -35,7 +34,7 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
     DatabaseReference mData;
     FirebaseDatabase mFirebaseDatabase;
     RecyclerView recyclerView;
-    AlbumsAdapter adapter;
+    HomeAdapter adapter;
     List<Album> albumList;
 
 
@@ -60,10 +59,10 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
+        recyclerView = view.findViewById(R.id.recycler_view);
         albumList = new ArrayList<>();
 
-        adapter = new AlbumsAdapter(getActivity(), albumList,  this);
+        adapter = new HomeAdapter(getActivity(), albumList, this);
 
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
@@ -88,7 +87,7 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
                 Album album = dataSnapshot.getValue(Album.class);
                 albumList.add(album);
 
-                Log.d(" ALBUM LIST  - - - ",String.valueOf(albumList.size()));
+                Log.d(" ALBUM LIST  - - - ", String.valueOf(albumList.size()));
 
                 adapter.notifyDataSetChanged();
 
@@ -116,13 +115,13 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         });
 
     }
-
+    @Override
     public void onAlbmclick(int position) {
 
-        String name = String.valueOf(albumList.get(position).getName());
-        Log.d("NAME LAAAAA ----------", name);
+        String nameAlbum = String.valueOf(albumList.get(position).getNameAlbum());
+        Log.d("NAME LAAAAA ----------", nameAlbum);
         Intent intent = new Intent(getActivity(), ActivityPlay.class);
-        intent.putExtra("name", name);
+        intent.putExtra("name", nameAlbum);
         startActivity(intent);
     }
 
@@ -170,9 +169,6 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         Resources r = getResources();
         return Math.round(TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics()));
     }
-
-
-
 
 
 }

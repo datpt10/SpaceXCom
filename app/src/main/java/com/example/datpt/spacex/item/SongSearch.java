@@ -1,31 +1,9 @@
 package com.example.datpt.spacex.item;
 
-public class Album {
-    private String id;
-    private String name;
-    private String nameAlbum;
-    private String numOfSong;
-    private String thumbnail;
+public class SongSearch {
+    private String name,nameAlbum,numOfSong, thumbnail;
 
-    public Album() {
-
-
-    }
-
-    public String getNameAlbum() {
-        return nameAlbum;
-    }
-
-    public void setNameAlbum(String nameAlbum) {
-        this.nameAlbum = nameAlbum;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public SongSearch() {
     }
 
     public String getName() {
@@ -34,6 +12,14 @@ public class Album {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getNameAlbum() {
+        return nameAlbum;
+    }
+
+    public void setNameAlbum(String nameAlbum) {
+        this.nameAlbum = nameAlbum;
     }
 
     public String getNumOfSong() {

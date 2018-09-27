@@ -53,38 +53,10 @@ public class ActivityPlayAdapter extends RecyclerView.Adapter<ActivityPlayAdapte
 
         public MyViewHolder(View itemView) {
             super(itemView);
-            id = (TextView) itemView.findViewById(R.id.tv_id);
-            nameBH = (TextView) itemView.findViewById(R.id.tv_tenbaihat);
-            nameCasi = (TextView) itemView.findViewById(R.id.tv_casi);
-
+            id = itemView.findViewById(R.id.tv_id);
+            nameBH = itemView.findViewById(R.id.tv_tenbaihat);
+            nameCasi = itemView.findViewById(R.id.tv_casi);
         }
-    }
-
-    public String milliSecondsToTimer(long milliseconds) {
-
-        String finalTimerString = "";
-        String secondsString;
-        //Convert total duration into time
-        int hour = (int) (milliseconds / (1000 * 60 * 60));
-        int minutes = (int) (milliseconds % (1000 * 60 * 60)) / (1000 * 60);
-        int seconds = (int) ((milliseconds % (1000 * 60 * 60)) % (1000 * 60) / 1000);
-        // add hours if here
-
-        if (hour > 0) {
-            finalTimerString = hour + ":";
-        }
-        //prepening 0 to second if it is one digit
-
-        if (seconds < 10) {
-            secondsString = "0" + seconds;
-        } else {
-            secondsString = "" + seconds;
-        }
-        finalTimerString = finalTimerString + minutes + ":" + secondsString;
-
-        // return time String
-        return finalTimerString;
-
     }
 
     @Override

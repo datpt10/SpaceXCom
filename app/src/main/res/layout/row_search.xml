@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:paddingBottom="@dimen/padding_10"
+    android:paddingLeft="@dimen/padding_10"
+    android:paddingTop="@dimen/padding_10">
+
+    <com.mikhaellopez.circularimageview.CircularImageView
+        android:id="@+id/img_thumnail"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/backgroundmp3" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="6dp">
+
+        <TextView
+            android:id="@+id/tv_tenAlbum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tenbaihat"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+        <TextView
+            android:id="@+id/tv_ten"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:visibility="gone"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_numOfSong"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="tenbaihat"
+            android:textSize="14sp" />
+
+    </LinearLayout>
+
+</LinearLayout>

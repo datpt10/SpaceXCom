@@ -14,9 +14,10 @@
     <!-- Navigation Drawer menu labels -->
     <string name="frag_home">Trang chủ</string>
     <string name="frag_playlist">Playlist</string>
-    <string name="frag_song">Bài hát</string>
-    <string name="frag_singer">Ca sĩ</string>
     <string name="frag_settings">Cài đặt</string>
     <string name="frag_about_us">About us</string>
+    <string name="channel_name">channel_name</string>
+    <string name="channel_description">channel_description</string>
+    <string name="title_activity_playlist_music">PlaylistMusic</string>
 
 </resources>

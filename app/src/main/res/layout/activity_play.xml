@@ -12,19 +12,15 @@
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recycler_view"
-        android:paddingLeft="8dp"
-        android:paddingRight="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingLeft="8dp"
+        android:paddingRight="8dp"
         android:scrollbars="vertical" />
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include layout="@layout/play_mp3" />
-    </RelativeLayout>
+    <include layout="@layout/play_mp3"
+        android:visibility="visible"/>
 
 
 </com.sothree.slidinguppanel.SlidingUpPanelLayout>

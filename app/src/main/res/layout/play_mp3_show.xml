@@ -2,8 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:id="@+id/li_mp3_show"
-    android:background="#dd4e9af7"
+    android:id="@+id/li_mp3"
+    android:background="#bababa"
+    android:layout_alignParentBottom="true"
+    android:layout_gravity="bottom"
+    android:gravity="bottom"
+    android:visibility="visible"
     android:orientation="vertical">
 
     <RelativeLayout
