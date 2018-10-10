@@ -33,9 +33,9 @@ public class SlideAdapter extends PagerAdapter {
     };
 
     public String[] slide_docs = {
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry",
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry"
+            "Hãy luôn giữ cho mình một thân thể khỏe mạnh",
+            "Hãy luôn giữ cho mình một trái tim chứa chan tình yêu thương bằng âm nhạc",
+            "Hãy luôn giữ cho mình một giấc ngủ đủ giấc "
     };
 
     @Override

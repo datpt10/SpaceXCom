@@ -1,7 +1,9 @@
 package com.example.datpt.spacex.inter;
 
+import com.example.datpt.spacex.item.Song;
+
+import java.util.ArrayList;
+
 public interface InterfaceSongClickCustom {
-
-    public void onSongClick(int position);
+    void onSongClick(ArrayList<Song> arrayList, int position);
 }
-

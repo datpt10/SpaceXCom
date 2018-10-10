@@ -1,11 +1,11 @@
 package com.example.datpt.spacex.Fragment;
 
-import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -15,7 +15,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.datpt.spacex.ActivityPlay;
 import com.example.datpt.spacex.R;
 import com.example.datpt.spacex.adapter.HomeAdapter;
 import com.example.datpt.spacex.inter.InterfaceAlbumCustom;
@@ -115,14 +114,18 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         });
 
     }
+
     @Override
     public void onAlbmclick(int position) {
-
         String nameAlbum = String.valueOf(albumList.get(position).getNameAlbum());
-        Log.d("NAME LAAAAA ----------", nameAlbum);
-        Intent intent = new Intent(getActivity(), ActivityPlay.class);
-        intent.putExtra("name", nameAlbum);
-        startActivity(intent);
+        PlayMusicFragment fragment = new PlayMusicFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("name", nameAlbum);
+        fragment.setArguments(bundle);
+        FragmentManager manager = getFragmentManager();
+        manager.beginTransaction().replace(R.id.frame_container,fragment).commit();
+
+        Log.d("Namee----", nameAlbum);
     }
 
     //    RecyclerView item decoration - give equal margin around grid item

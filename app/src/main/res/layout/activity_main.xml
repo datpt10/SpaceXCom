@@ -7,32 +7,109 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-        <include
-            android:id="@+id/searchView_list"
-            layout="@layout/search"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
-
-        <FrameLayout
-            android:id="@+id/frame_container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/searchView_list"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
-
-
-    </RelativeLayout>
-
     <include
-        layout="@layout/play_mp3_show"
-        android:layout_width="wrap_content"
+        android:id="@+id/searchView_list"
+        layout="@layout/search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <FrameLayout
+        android:id="@+id/frame_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/searchView_list"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/li_mp3_show"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/navigation"
-        android:visibility="gone" />
+        android:layout_above="@+id/navigation"
+        android:layout_alignParentStart="true"
+        android:background="#e9e9e9"
+        android:orientation="vertical">
+
+        <ProgressBar
+            android:id="@+id/processBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:progress="0" />
+
+        <RelativeLayout
+            android:id="@+id/re_showBottomDialog"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingBottom="2dp"
+            android:paddingTop="1dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="0dp"
+                android:orientation="vertical"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:id="@+id/tv_nameSong_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/neosan"
+                    android:text="Ten BH"
+                    android:textColor="#757575"
+                    android:textSize="16dp"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:id="@+id/tv_singer_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/neosan"
+                    android:text="ten ca si"
+                    android:textColor="#757575"
+                    android:textSize="13dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:orientation="horizontal"
+                android:paddingRight="10dp">
+
+                <ImageButton
+                    android:id="@+id/img_previous_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_skip_previous_black_36dp" />
+
+                <ImageButton
+                    android:id="@+id/img_play_pause_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_play_circle_outline_black_48dp" />
+
+                <ImageButton
+                    android:id="@+id/img_next_show"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
+                    android:focusable="true"
+                    android:src="@drawable/ic_skip_next_black_36dp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
 
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"

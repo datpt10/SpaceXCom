@@ -43,6 +43,7 @@
     <dimen name="timestamp">11dp</dimen>
     <dimen name="description">15dp</dimen>
     <dimen name="price">13dp</dimen>
+    <dimen name="text_margin">16dp</dimen>
 
 
 </resources>

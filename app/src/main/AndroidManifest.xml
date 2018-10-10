@@ -3,7 +3,6 @@
     package="com.example.datpt.spacex">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -18,26 +17,13 @@
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ActivityPlay"
-            android:parentActivityName=".MainActivity" />
-        <activity android:name="PlaylistMusic" />
-
-        <receiver android:name=".NotificationBroadcast">
-            <intent-filter>
-                <action android:name="com.example.datpt.spacex.previous" />
-                <action android:name="com.example.datpt.spacex.pause" />
-                <action android:name="com.example.datpt.spacex.next" />
-            </intent-filter>
-        </receiver>
-
-        <service
-            android:name=".ServicePlayBackgound"
-            android:enabled="true" />
+        <receiver android:name=".MainActivity" />
+        <!--<service-->
+            <!--android:name=".ServicePlayBackgound"-->
+            <!--android:enabled="true" />-->
     </application>
 
 </manifest>

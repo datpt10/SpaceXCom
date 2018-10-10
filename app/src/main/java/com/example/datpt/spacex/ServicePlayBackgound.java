@@ -1,6 +1,8 @@
 package com.example.datpt.spacex;
 
 import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -8,6 +10,8 @@ import android.os.Binder;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.support.annotation.Nullable;
+import android.telephony.PhoneStateListener;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.example.datpt.spacex.item.Song;
@@ -18,7 +22,7 @@ import java.util.Random;
 
 public class ServicePlayBackgound extends Service implements MediaPlayer.OnErrorListener, MediaPlayer.OnCompletionListener {
 
-    MediaPlayer mediaPlayer = new MediaPlayer();
+    public MediaPlayer mediaPlayer = new MediaPlayer();
     private ArrayList<Song> arrayList;
 
     private boolean shuffle = false;
@@ -27,6 +31,49 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnError
     String nameBH, singer, urlSong;
 
     private IBinder iBinder = new MusicBinder();
+
+    //Thành lập broadcast identifier and intent
+    public static final String BROADCAST_BUFFER = "SpaceX";
+    Intent bufferIntent;
+
+    private boolean isPausedInCall = false;
+    private PhoneStateListener phoneStateListener;
+    private TelephonyManager telephonyManager;
+    private static final String TAG = "TELEPHONESERVICE";
+
+    //Và nếu có cắm tai nge, thì dừng nhạc và dừng service
+    //BroadCast Receiver sử dụng để lắng nge và phát sóng dữ liệu khi tai nge được cắm
+
+    private int headsetSwitch = 1;
+    private BroadcastReceiver headsetReceiver = new BroadcastReceiver() {
+        private boolean headsetConnected = false;
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // Log.v(TAG, "ACTION_HEADSET_PLUG Intent received");
+            if (intent.hasExtra("state")) {
+                if (headsetConnected && intent.getIntExtra("state", 0) == 0) {
+                    headsetConnected = false;
+                    headsetSwitch = 0;
+                } else if (!headsetConnected && intent.getIntExtra("state", 0) == 1) {
+                    headsetConnected = true;
+                    headsetSwitch = 1;
+                }
+            }
+            switch (headsetSwitch) {
+                case (0):
+                    headsetDisconnected();
+                    break;
+                case (1):
+                    break;
+            }
+        }
+    };
+
+    private void headsetDisconnected() {
+        pause();
+    }
+
 
     @Nullable
     @Override
@@ -66,14 +113,12 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnError
     public void setList(ArrayList<Song> theSongs) {
         arrayList = theSongs;
 
-        Log.d("Setlisttttt---" ,String.valueOf(arrayList.size()));
-
+        Log.d("Setlisttttt---", String.valueOf(arrayList.size()));
     }
 
     @Override
     public boolean onUnbind(Intent intent) {
-        mediaPlayer.stop();
-        mediaPlayer.release();
+        mediaPlayer.start();
         return false;
     }
 
@@ -83,12 +128,16 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnError
         }
     }
 
-    public void getTrackName(String tenbaihat) {
+    public String getTrackName(String tenbaihat) {
         nameBH = tenbaihat;
+
+        return tenbaihat;
     }
 
-    public void getTrackSinger(String tencasi) {
+    public String getTrackSinger(String tencasi) {
         singer = tencasi;
+
+        return tencasi;
     }
 
     public void playSong(int song) {
@@ -168,13 +217,10 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnError
     public void start() {
         mediaPlayer.start();
     }
-
     public void stop() {
 
         mediaPlayer.stop();
     }
-
-
     //skip to previous track
     public void previous() {
         songPos--;
@@ -185,9 +231,7 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnError
             mediaPlayer.stop();
         }
         playSong(songPos);
-
     }
-
     //skip to next
     public void next() {
         if (shuffle) {
@@ -211,12 +255,6 @@ public class ServicePlayBackgound extends Service implements MediaPlayer.OnError
     @Override
     public void onDestroy() {
         stopForeground(true);
-    }
-
-    //toggle shuffle
-    public void setShuffle() {
-        if (shuffle) shuffle = false;
-        else shuffle = true;
     }
 
 }

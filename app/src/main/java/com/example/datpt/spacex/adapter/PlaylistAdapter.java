@@ -16,13 +16,14 @@ import android.widget.Toast;
 import com.example.datpt.spacex.R;
 import com.example.datpt.spacex.inter.InterfacePlaylistCustom;
 import com.example.datpt.spacex.item.LikeSong;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
 public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.MyViewHolder> {
-
     private Context context;
-    private ArrayList arrayList;
+    private ArrayList<LikeSong>arrayList;
     private InterfacePlaylistCustom clickCustom = null;
 
     @NonNull
@@ -34,7 +35,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.MyView
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                clickCustom.playList(viewHolder.getAdapterPosition());
+                clickCustom.playList(arrayList,viewHolder.getAdapterPosition());
             }
         });
 
@@ -93,8 +94,7 @@ public class PlaylistAdapter extends RecyclerView.Adapter<PlaylistAdapter.MyView
         public boolean onMenuItemClick(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.action_delete:
-                    Toast.makeText(context, "DELETE ", Toast.LENGTH_LONG).show();
-
+                    Toast.makeText(context, "DELETED ", Toast.LENGTH_LONG).show();
                     return true;
                 default:
             }

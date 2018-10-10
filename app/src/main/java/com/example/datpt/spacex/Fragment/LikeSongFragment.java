@@ -1,13 +1,18 @@
-package com.example.datpt.spacex;
+package com.example.datpt.spacex.Fragment;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 
+import com.example.datpt.spacex.R;
 import com.example.datpt.spacex.adapter.PlaylistAdapter;
 import com.example.datpt.spacex.inter.InterfacePlaylistCustom;
 import com.example.datpt.spacex.item.LikeSong;
@@ -19,30 +24,39 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
-public class PlaylistMusic extends AppCompatActivity implements InterfacePlaylistCustom {
+public class LikeSongFragment extends Fragment {
     DatabaseReference mData;
     FirebaseDatabase mFirebaseDatabase;
     RecyclerView recyclerView;
     PlaylistAdapter adapter;
     ArrayList<LikeSong> arrayList = new ArrayList<>();
 
+    public LikeSongFragment() {
+        //contructor
+
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_playlist_music);
-        recyclerView = findViewById(R.id.rec_list);
-        adapter = new PlaylistAdapter(this, arrayList, this );
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.activity_playlist_music, container, false);
+
+        recyclerView = view.findViewById(R.id.rec_list);
+        adapter = new PlaylistAdapter(getActivity(), arrayList, (InterfacePlaylistCustom) getActivity());
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
 
         showList();
-
+        return view;
     }
-
     private void showList() {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mData = mFirebaseDatabase.getReference("LikeSong");
@@ -76,11 +90,6 @@ public class PlaylistMusic extends AppCompatActivity implements InterfacePlaylis
 
             }
         });
-
-    }
-
-    @Override
-    public void playList(int position) {
 
     }
 }
