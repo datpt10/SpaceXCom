@@ -126,7 +126,7 @@ public class PersonFragment extends Fragment implements View.OnClickListener {
 
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.frame_container, fragment);
+        transaction.replace(R.id.viewPager, fragment);
         transaction.addToBackStack(null);
         transaction.commit();
     }

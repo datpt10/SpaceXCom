@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/padding_10"
+    android:background="?attr/selectableItemBackground"
+    android:paddingBottom="@dimen/padding_10">
+
+    <TextView
+        android:id="@+id/tv_id_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/neosan"
+        android:paddingLeft="@dimen/padding_10"
+        android:paddingRight="@dimen/padding_10"
+        android:text="00"
+        android:textSize="16dp"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_id_item"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/tv_tenbaihat_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/neosan"
+            android:text="ten bai hat"
+            android:textStyle="bold"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/tv_casi_item"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/neosan"
+            android:text="ten ca si"
+            android:textSize="14dp" />
+
+    </LinearLayout>
+
+    <ImageButton
+        android:id="@+id/overflow_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="1dp"
+        android:background="?attr/selectableItemBackground"
+        android:paddingRight="5dp"
+        android:src="@drawable/ic_overflow_black_24dp" />
+
+</RelativeLayout>

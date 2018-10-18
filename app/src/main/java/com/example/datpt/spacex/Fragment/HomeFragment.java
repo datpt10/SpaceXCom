@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -122,8 +123,10 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         Bundle bundle = new Bundle();
         bundle.putString("name", nameAlbum);
         fragment.setArguments(bundle);
-        FragmentManager manager = getFragmentManager();
-        manager.beginTransaction().replace(R.id.frame_container,fragment).commit();
+        FragmentTransaction manager = getFragmentManager().beginTransaction();
+        manager.replace(R.id.frame_container, fragment);
+        manager.addToBackStack(null);
+        manager.commit();
 
         Log.d("Namee----", nameAlbum);
     }

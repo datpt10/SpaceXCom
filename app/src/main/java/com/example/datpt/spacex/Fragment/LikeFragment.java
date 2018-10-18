@@ -29,10 +29,6 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
-
-/**
- * A simple {@link Fragment} subclass.
- */
 public class LikeFragment extends Fragment {
 
     private static final String TAG = LikeFragment.class.getSimpleName();
@@ -55,8 +51,8 @@ public class LikeFragment extends Fragment {
 
         mShimmerViewContainer = view.findViewById(R.id.shimmer_view_container);
 
-        recyclerView = (RecyclerView) view.findViewById(R.id.lv_like);
-        arrayList = new ArrayList<Like>();
+        recyclerView =  view.findViewById(R.id.lv_like);
+        arrayList = new ArrayList<>();
 
         adapter = new LikeAdapter(getActivity(), arrayList);
 

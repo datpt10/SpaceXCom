@@ -24,7 +24,7 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.MyVi
     private Context mContext;
     private ArrayList<Song> arrayList;
     private InterfaceSongClickCustom clickSong = null;
-    private MyViewHolder viewHolder;
+
 
     @NonNull
     @Override
@@ -32,7 +32,7 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.MyVi
 
 
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_playmusic, parent, false);
-        viewHolder = new MyViewHolder(view);
+        final MyViewHolder viewHolder = new MyViewHolder(view);
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,9 +54,9 @@ public class PlayMusicAdapter extends RecyclerView.Adapter<PlayMusicAdapter.MyVi
 
         public MyViewHolder(final View itemView) {
             super(itemView);
-            id = itemView.findViewById(R.id.tv_id);
-            nameBH = itemView.findViewById(R.id.tv_tenbaihat);
-            nameCasi = itemView.findViewById(R.id.tv_casi);
+            id = itemView.findViewById(R.id.tv_id_item);
+            nameBH = itemView.findViewById(R.id.tv_tenbaihat_item);
+            nameCasi = itemView.findViewById(R.id.tv_casi_item);
             overflow_item = itemView.findViewById(R.id.overflow_item);
         }
     }

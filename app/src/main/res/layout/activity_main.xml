@@ -10,6 +10,7 @@
     <include
         android:id="@+id/searchView_list"
         layout="@layout/search"
+        android:layout_above="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
@@ -18,8 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/searchView_list"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"></FrameLayout>
-
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     <LinearLayout
         android:id="@+id/li_mp3_show"
         android:layout_width="match_parent"
@@ -56,7 +56,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/neosan"
-                    android:text="Ten BH"
+                    android:text="Nghe nhạc mọi lúc"
                     android:textColor="#757575"
                     android:textSize="16dp"
                     android:textStyle="bold" />
@@ -66,7 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/neosan"
-                    android:text="ten ca si"
+                    android:text="SpaceX"
                     android:textColor="#757575"
                     android:textSize="13dp" />
             </LinearLayout>
@@ -110,7 +110,6 @@
             </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
-
     <android.support.design.widget.BottomNavigationView
         android:id="@+id/navigation"
         android:layout_width="match_parent"
@@ -121,4 +120,11 @@
         app:itemTextColor="@android:color/black"
         app:menu="@menu/navigation" />
 
+    <android.support.v4.view.ViewPager
+        android:id="@+id/viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@+id/li_mp3_show"
+        android:layout_below="@+id/searchView_list"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </RelativeLayout>

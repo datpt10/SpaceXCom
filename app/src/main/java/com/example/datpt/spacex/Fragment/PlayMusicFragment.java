@@ -30,12 +30,11 @@ import java.util.ArrayList;
 public class PlayMusicFragment extends Fragment {
     private DatabaseReference mData;
     private FirebaseDatabase mFirebaseDatabase;
-    private RecyclerView recyclerView;
+    private RecyclerView view_Playlist;
     private PlayMusicAdapter playAdapter;
     private ArrayList<Song> arrayList;
     private static String mSinger = "";
     private boolean isSinger = false;
-    //playmp3
 
     private InterfaceSongClickCustom songClickCustom;
 
@@ -64,16 +63,13 @@ public class PlayMusicFragment extends Fragment {
             isSinger = true;
             mSinger = getArguments().getString("name");
         }
-
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        view_Playlist.setHasFixedSize(true);
+        view_Playlist.setLayoutManager(new LinearLayoutManager(getActivity()));
         arrayList = new ArrayList<>();
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        view_Playlist.setItemAnimator(new DefaultItemAnimator());
         playAdapter = new PlayMusicAdapter(getActivity(), arrayList, (InterfaceSongClickCustom) getActivity());
-
-
-        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
-        recyclerView.setAdapter(playAdapter);
+        view_Playlist.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayoutManager.VERTICAL));
+        view_Playlist.setAdapter(playAdapter);
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mData = mFirebaseDatabase.getReference("Song").child(mSinger);
 
@@ -83,7 +79,7 @@ public class PlayMusicFragment extends Fragment {
     }
 
     public void viewControl(View view) {
-        recyclerView = view.findViewById(R.id.recycler_view_list);
+        view_Playlist = view.findViewById(R.id.recycler_view_list);
     }
 
     private void showData() {

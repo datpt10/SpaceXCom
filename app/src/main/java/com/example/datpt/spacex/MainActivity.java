@@ -20,6 +20,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -27,6 +28,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -38,6 +40,7 @@ import android.widget.RelativeLayout;
 import android.widget.RemoteViews;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.datpt.spacex.Fragment.HomeFragment;
@@ -45,6 +48,7 @@ import com.example.datpt.spacex.Fragment.LikeFragment;
 import com.example.datpt.spacex.Fragment.PersonFragment;
 import com.example.datpt.spacex.Fragment.PlayMusicFragment;
 import com.example.datpt.spacex.adapter.SearchAdapter;
+import com.example.datpt.spacex.adapter.ViewPagerAdapter;
 import com.example.datpt.spacex.inter.InterfacePlaylistCustom;
 import com.example.datpt.spacex.inter.InterfaceSearchCustom;
 import com.example.datpt.spacex.inter.InterfaceSongClickCustom;
@@ -64,12 +68,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements InterfaceSearchCustom, InterfaceSongClickCustom, MediaPlayer.OnCompletionListener, InterfacePlaylistCustom {
+public class MainActivity extends AppCompatActivity implements InterfaceSearchCustom, InterfaceSongClickCustom, InterfacePlaylistCustom {
 
     public static final String NOTIFY_PREVIOUS = "com.example.datpt.spacex.previous";
-    public static final String NOTIFY_PAUSE_PlAY = "com.example.datpt.spacex.pause.play";
+    public static final String NOTIFY_PAUSE_PLAY = "com.example.datpt.spacex.pause.play";
     public static final String NOTIFY_NEXT = "com.example.datpt.spacex.next";
     private static final int NOTIFICATION_ID_CUSTOM_BIG = 9;
+    private String SHARE_PREFERENCE_NAME = "Song";
     private RecyclerView recyclerView;
     private TextView tv_noData;
     private ArrayList<SongSearch> arrayList;
@@ -88,11 +93,11 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
     private LinearLayout li_mp3_show;
     private RelativeLayout re_showBottomDialog;
 
-    private MediaPlayer mediaPlayer = new MediaPlayer();
-    private Handler handler;
-    private Runnable runnable;
-    private ProgressBar progressBar;
-    private BroadcastReceiver receiver;
+    MediaPlayer mediaPlayer = new MediaPlayer();
+    Handler handler;
+    Runnable runnable;
+    ProgressBar progressBar;
+    BroadcastReceiver receiver;
     //Dialog
 
     private TextView tv_casi, tv_baihat;
@@ -101,6 +106,13 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
     private boolean isShuffle = false;
     private boolean isFavorite = false;
 
+    private ViewPager viewPager;
+
+    BottomNavigationView bottomNavigationView;
+    HomeFragment homeFragment;
+    LikeFragment likeFragment;
+    PersonFragment personFragment;
+    MenuItem prevMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +120,64 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        viewPager = findViewById(R.id.viewpager);
+        bottomNavigationView = findViewById(R.id.navigation);
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                Fragment fragment;
+                searchView.clearFocus();
+                switch (item.getItemId()) {
+                    case R.id.person_nav:
+                        viewPager.setCurrentItem(0);
+                        fragment = new PersonFragment();
+                        recyclerView.setVisibility(View.GONE);
+                        loadFragment(fragment);
+                        return true;
+                    case R.id.home_nav:
+                        viewPager.setCurrentItem(1);
+                        fragment = new HomeFragment();
+                        recyclerView.setVisibility(View.GONE);
+                        loadFragment(fragment);
+                        return true;
+                    case R.id.like_nav:
+                        viewPager.setCurrentItem(2);
+                        fragment = new LikeFragment();
+                        recyclerView.setVisibility(View.GONE);
+                        loadFragment(fragment);
+                        return true;
+                }
+
+                return false;
+            }
+        });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                if (prevMenuItem != null) {
+                    prevMenuItem.setChecked(false);
+                } else {
+                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
+                }
+                bottomNavigationView.getMenu().getItem(position).setChecked(true);
+                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+            }
+        });
+        setupViewPager(viewPager);
         view();
+
+//        bottomNavigationView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) getApplicationContext());
+        bottomNavigationView.setSelectedItemId(R.id.home_nav);
+        loadFragment(new HomeFragment());
 
         arrayList = new ArrayList<>();
         adapter = new SearchAdapter(getApplicationContext(), arrayList, this);
@@ -117,13 +186,7 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         recyclerView.addItemDecoration(new DividerItemDecoration(getApplicationContext(), LinearLayoutManager.VERTICAL));
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(adapter);
-
         recyclerView.setVisibility(View.GONE);
-
-        loadFragment(new HomeFragment());
-        BottomNavigationView navigation = findViewById(R.id.navigation);
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        navigation.setSelectedItemId(R.id.home_nav);
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mData = mFirebaseDatabase.getReference("Album");
@@ -167,9 +230,14 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                 return true;
             }
         });
+
+        fillterAction();
+    }
+
+    private void fillterAction() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(MainActivity.NOTIFY_PREVIOUS);
-        filter.addAction(MainActivity.NOTIFY_PAUSE_PlAY);
+        filter.addAction(MainActivity.NOTIFY_PAUSE_PLAY);
         filter.addAction(MainActivity.NOTIFY_NEXT);
         receiver = new BroadcastReceiver() {
             @Override
@@ -185,11 +253,13 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                     }
                     onSongClick(songList, pos);
 
-                } else if (intent.getAction().equals(MainActivity.NOTIFY_PAUSE_PlAY)) {
+                } else if (intent.getAction().equals(MainActivity.NOTIFY_PAUSE_PLAY)) {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
+                        btn_play_pause_show.setImageResource(R.drawable.ic_play_circle_outline_black_48dp);
                     } else {
                         mediaPlayer.start();
+                        btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
                     }
 
                 } else if (intent.getAction().equals(MainActivity.NOTIFY_NEXT)) {
@@ -206,6 +276,18 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
             }
         };
         registerReceiver(receiver, filter);
+
+    }
+
+    private void setupViewPager(ViewPager viewPager) {
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        personFragment = new PersonFragment();
+        homeFragment = new HomeFragment();
+        likeFragment = new LikeFragment();
+        adapter.addFragment(personFragment);
+        adapter.addFragment(homeFragment);
+        adapter.addFragment(likeFragment);
+        viewPager.setAdapter(adapter);
     }
 
     private void view() {
@@ -231,7 +313,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                         .setQuery(query, SongSearch.class)
                         .setLifecycleOwner(this)
                         .build();
-
         firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<SongSearch, SearchAdapter.MyViewHolder>(options) {
             @Override
             protected void onBindViewHolder(@NonNull SearchAdapter.MyViewHolder holder, int position, @NonNull SongSearch model) {
@@ -261,8 +342,8 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
     }
 
     @Override
-    public void playSearch(int position) {
-        String name = String.valueOf(arrayList.get(position).getNameAlbum());
+    public void playSearch(int positions) {
+        String name = String.valueOf(arrayList.get(positions).getNameAlbum());
         Bundle bundle = new Bundle();
         bundle.putString("name", name);
         PlayMusicFragment playMusicFragment = new PlayMusicFragment();
@@ -278,31 +359,32 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         transaction.commit();
     }
 
-    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-        @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-            Fragment fragment;
-            searchView.clearFocus();
-            switch (item.getItemId()) {
-                case R.id.home_nav:
-                    fragment = new HomeFragment();
-                    recyclerView.setVisibility(View.GONE);
-                    loadFragment(fragment);
-                    return true;
-                case R.id.person_nav:
-                    fragment = new PersonFragment();
-                    recyclerView.setVisibility(View.GONE);
-                    loadFragment(fragment);
-                    return true;
-                case R.id.like_nav:
-                    fragment = new LikeFragment();
-                    recyclerView.setVisibility(View.GONE);
-                    loadFragment(fragment);
-                    return true;
-            }
-            return false;
-        }
-    };
+//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+//        @Override
+//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//            Fragment fragment;
+//            searchView.clearFocus();
+//            switch (item.getItemId()) {
+//                case R.id.home_nav:
+//
+//                    fragment = new HomeFragment();
+//                    recyclerView.setVisibility(View.GONE);
+//                    loadFragment(fragment);
+//                    return true;
+//                case R.id.person_nav:
+//                    fragment = new PersonFragment();
+//                    recyclerView.setVisibility(View.GONE);
+//                    loadFragment(fragment);
+//                    return true;
+//                case R.id.like_nav:
+//                    fragment = new LikeFragment();
+//                    recyclerView.setVisibility(View.GONE);
+//                    loadFragment(fragment);
+//                    return true;
+//            }
+//            return false;
+//        }
+//    };
 
     @Override
     public void playList(ArrayList<LikeSong> songArrayList, int position) {
@@ -330,22 +412,22 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
 
         mediaPlayer.start();
-        controlMusic();
         showDialog();
+        controlMusic();
         notification();
     }
 
     @Override
     public void onSongClick(ArrayList<Song> arrayList, int position) {
         li_mp3_show.setVisibility(View.VISIBLE);
+        mediaPlayer.stop();
+        mediaPlayer.release();
+        mediaPlayer = new MediaPlayer();
         songList = arrayList;
         pos = position;
         nameBH = String.valueOf(songList.get(pos).getName());
         urlSong = String.valueOf(songList.get(pos).getUrlSong());
         singer = String.valueOf(songList.get(pos).getSinger());
-        mediaPlayer.stop();
-        mediaPlayer.release();
-        mediaPlayer = new MediaPlayer();
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mediaPlayer.setDataSource(urlSong);
@@ -360,10 +442,9 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         tv_singer_show.setText(singer);
         tv_nameBH_show.setText(nameBH);
         btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
-
         mediaPlayer.start();
-        controlMusic();
         showDialog();
+        controlMusic();
         notification();
     }
 
@@ -495,9 +576,68 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                 });
                 seekBar.setProgress(mediaPlayer.getCurrentPosition());
                 playCycle();
-
             }
         });
+    }
+
+    public void controlMusic() {
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mediaPlayer) {
+                pos++;
+                if (pos > songList.size() - 1) {
+                    pos = 0;
+                }
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                onSongClick(songList, pos);
+            }
+        });
+
+        //control music
+        btn_play_pause_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.pause();
+                    btn_play_pause_show.setImageResource(R.drawable.ic_play_circle_outline_black_48dp);
+                } else {
+                    mediaPlayer.start();
+                    btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
+                    playCycle();
+                }
+            }
+        });
+        btn_next_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pos++;
+                if (pos > arrayList.size() - 1) {
+                    pos = 0;
+                }
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                onSongClick(songList, pos);
+            }
+        });
+        btn_previous_show.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pos--;
+                if (pos < 0) {
+                    pos = arrayList.size() - 1;
+                }
+                if (mediaPlayer.isPlaying()) {
+                    mediaPlayer.stop();
+                }
+                onSongClick(songList, pos);
+            }
+        });
+        handler = new Handler();
+        progressBar.setMax(mediaPlayer.getDuration());
+        playCycle();
     }
 
     public void playCycle() {
@@ -510,75 +650,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                 }
             };
         handler.postDelayed(runnable, 1000);
-    }
-
-    public void controlMusic() {
-        //control music
-        btn_play_pause_show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.pause();
-                    btn_play_pause_show.setImageResource(R.drawable.ic_play_circle_outline_black_48dp);
-                    btn_play_pause.setImageResource(R.drawable.ic_play_circle_filled_black_60dp);
-                } else {
-                    mediaPlayer.start();
-                    btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
-                    btn_play_pause.setImageResource(R.drawable.ic_pause_circle_filled_black_60dp);
-                    playCycle();
-                }
-            }
-        });
-        btn_next_show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn_play_pause_show.setImageResource(R.drawable.ic_play_circle_outline_black_48dp);
-                pos++;
-                if (pos > arrayList.size() - 1) {
-                    pos = 0;
-                }
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                }
-                btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
-                onSongClick(songList, pos);
-            }
-        });
-        btn_previous_show.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                btn_play_pause_show.setImageResource(R.drawable.ic_play_circle_outline_black_48dp);
-                pos--;
-                if (pos < 0) {
-                    pos = arrayList.size() - 1;
-                }
-                if (mediaPlayer.isPlaying()) {
-                    mediaPlayer.stop();
-                }
-                btn_play_pause_show.setBackgroundResource(R.drawable.ic_pause_circle_outline_black_48dp);
-                onSongClick(songList, pos);
-            }
-        });
-        handler = new Handler();
-        progressBar.setMax(mediaPlayer.getDuration());
-        playCycle();
-    }
-
-    @Override
-    public void onCompletion(MediaPlayer mediaPlayer) {
-        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
-            @Override
-            public void onCompletion(MediaPlayer mediaPlayer) {
-                pos++;
-                if (pos > songList.size() - 1) {
-                    pos = 0;
-                }
-                if (mediaPlayer.isPlaying()){
-                    mediaPlayer.stop();
-                }
-                onSongClick(songList,pos);
-            }
-        });
     }
 
     @SuppressLint("RestrictedApi")
@@ -629,39 +700,17 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
 
     private static void setListeners(RemoteViews view, Context context) {
         Intent previous = new Intent(NOTIFY_PREVIOUS);
-        Intent pause_play = new Intent(NOTIFY_PAUSE_PlAY);
+        Intent pause_play = new Intent(NOTIFY_PAUSE_PLAY);
         Intent next = new Intent(NOTIFY_NEXT);
 
         PendingIntent pPrevious = PendingIntent.getBroadcast(context, 0, previous, PendingIntent.FLAG_UPDATE_CURRENT);
         view.setOnClickPendingIntent(R.id.btn_previous_noti, pPrevious);
 
-        PendingIntent pDelete = PendingIntent.getBroadcast(context, 0, pause_play, PendingIntent.FLAG_UPDATE_CURRENT);
-        view.setOnClickPendingIntent(R.id.btn_play_pause_noti, pDelete);
+        PendingIntent pPlay = PendingIntent.getBroadcast(context, 0, pause_play, PendingIntent.FLAG_UPDATE_CURRENT);
+        view.setOnClickPendingIntent(R.id.btn_play_pause_noti, pPlay);
 
         PendingIntent pPause = PendingIntent.getBroadcast(context, 0, next, PendingIntent.FLAG_UPDATE_CURRENT);
         view.setOnClickPendingIntent(R.id.btn_next_noti, pPause);
-    }
-
-    @Override
-    protected void onStart() {
-        tv_singer_show.setText("Nghe nhạc mọi lúc");
-        tv_nameBH_show.setText("SpaceX");
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
     }
 
     @Override
@@ -669,11 +718,13 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         super.onBackPressed();
         searchView.clearFocus();
         recyclerView.setVisibility(View.GONE);
+        Toast.makeText(getApplicationContext(), "Chạm thêm lần nữa để thoát", Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        mediaPlayer.pause();
         mediaPlayer.stop();
         mediaPlayer.release();
         if (receiver != null) {
