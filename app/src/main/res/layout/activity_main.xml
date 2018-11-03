@@ -17,7 +17,9 @@
     <FrameLayout
         android:id="@+id/frame_container"
         android:layout_width="match_parent"
+        android:background="@color/colorPrimary"
         android:layout_height="match_parent"
+        android:layout_above="@+id/li_mp3_show"
         android:layout_below="@+id/searchView_list"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
     <LinearLayout
@@ -119,12 +121,4 @@
         android:background="?android:attr/windowBackground"
         app:itemTextColor="@android:color/black"
         app:menu="@menu/navigation" />
-
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewpager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_above="@+id/li_mp3_show"
-        android:layout_below="@+id/searchView_list"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 </RelativeLayout>

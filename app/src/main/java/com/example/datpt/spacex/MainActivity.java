@@ -6,8 +6,10 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
@@ -20,7 +22,7 @@ import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -28,7 +30,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -48,7 +49,6 @@ import com.example.datpt.spacex.Fragment.LikeFragment;
 import com.example.datpt.spacex.Fragment.PersonFragment;
 import com.example.datpt.spacex.Fragment.PlayMusicFragment;
 import com.example.datpt.spacex.adapter.SearchAdapter;
-import com.example.datpt.spacex.adapter.ViewPagerAdapter;
 import com.example.datpt.spacex.inter.InterfacePlaylistCustom;
 import com.example.datpt.spacex.inter.InterfaceSearchCustom;
 import com.example.datpt.spacex.inter.InterfaceSongClickCustom;
@@ -63,35 +63,38 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
+import com.google.gson.Gson;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity implements InterfaceSearchCustom, InterfaceSongClickCustom, InterfacePlaylistCustom {
+public class MainActivity extends AppCompatActivity implements InterfaceSearchCustom, InterfaceSongClickCustom, InterfacePlaylistCustom, MediaPlayer.OnPreparedListener {
 
     public static final String NOTIFY_PREVIOUS = "com.example.datpt.spacex.previous";
     public static final String NOTIFY_PAUSE_PLAY = "com.example.datpt.spacex.pause.play";
     public static final String NOTIFY_NEXT = "com.example.datpt.spacex.next";
     private static final int NOTIFICATION_ID_CUSTOM_BIG = 9;
     private String SHARE_PREFERENCE_NAME = "Song";
-    private RecyclerView recyclerView;
-    private TextView tv_noData;
-    private ArrayList<SongSearch> arrayList;
-    private SearchAdapter adapter;
-    private SearchView searchView;
+    private String SHARE_PREFERENCE_ARRAYLIST = "Arraylist";
+    RecyclerView recyclerView;
+    TextView tv_noData;
+    ArrayList<SongSearch> arrayList;
+    SearchAdapter adapter;
+    SearchView searchView;
     //    private ActionBar toolbar;
-    private FirebaseDatabase mFirebaseDatabase;
-    private DatabaseReference mData;
-    private FirebaseRecyclerAdapter<SongSearch, SearchAdapter.MyViewHolder> firebaseRecyclerAdapter;
-    private String nameBH, singer, urlSong;
-    private int pos;
-    private ArrayList<Song> songList;
-    private Toolbar toolbar;
-    private TextView tv_nameBH_show, tv_singer_show;
-    private ImageButton btn_previous_show, btn_play_pause_show, btn_next_show;
-    private LinearLayout li_mp3_show;
-    private RelativeLayout re_showBottomDialog;
+    FirebaseDatabase mFirebaseDatabase;
+    DatabaseReference mData;
+    FirebaseRecyclerAdapter<SongSearch, SearchAdapter.MyViewHolder> firebaseRecyclerAdapter;
+    String nameBH, singer, urlSong;
+    int pos;
+    ArrayList<Song> songList;
+    Toolbar toolbar;
+    TextView tv_nameBH_show, tv_singer_show;
+    ImageButton btn_previous_show, btn_play_pause_show, btn_next_show;
+    LinearLayout li_mp3_show;
+    RelativeLayout re_showBottomDialog;
 
     MediaPlayer mediaPlayer = new MediaPlayer();
     Handler handler;
@@ -99,20 +102,23 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
     ProgressBar progressBar;
     BroadcastReceiver receiver;
     //Dialog
-
     private TextView tv_casi, tv_baihat;
     private ImageButton btn_play_pause, btn_shuffle, btn_previous, btn_next, btn_favorite;
     private SeekBar seekBar;
     private boolean isShuffle = false;
     private boolean isFavorite = false;
+    //    notification
 
-    private ViewPager viewPager;
+    RemoteViews expandedView;
+    NotificationCompat.Builder nc;
+    NotificationManager nm;
+
+
+    int duration;
+
+    Fragment fragment;
 
     BottomNavigationView bottomNavigationView;
-    HomeFragment homeFragment;
-    LikeFragment likeFragment;
-    PersonFragment personFragment;
-    MenuItem prevMenuItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,62 +126,12 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         setContentView(R.layout.activity_main);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        viewPager = findViewById(R.id.viewpager);
         bottomNavigationView = findViewById(R.id.navigation);
+        Toast.makeText(this, "on Create", Toast.LENGTH_LONG).show();
 
-        bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                Fragment fragment;
-                searchView.clearFocus();
-                switch (item.getItemId()) {
-                    case R.id.person_nav:
-                        viewPager.setCurrentItem(0);
-                        fragment = new PersonFragment();
-                        recyclerView.setVisibility(View.GONE);
-                        loadFragment(fragment);
-                        return true;
-                    case R.id.home_nav:
-                        viewPager.setCurrentItem(1);
-                        fragment = new HomeFragment();
-                        recyclerView.setVisibility(View.GONE);
-                        loadFragment(fragment);
-                        return true;
-                    case R.id.like_nav:
-                        viewPager.setCurrentItem(2);
-                        fragment = new LikeFragment();
-                        recyclerView.setVisibility(View.GONE);
-                        loadFragment(fragment);
-                        return true;
-                }
-
-                return false;
-            }
-        });
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                if (prevMenuItem != null) {
-                    prevMenuItem.setChecked(false);
-                } else {
-                    bottomNavigationView.getMenu().getItem(0).setChecked(false);
-                }
-                bottomNavigationView.getMenu().getItem(position).setChecked(true);
-                prevMenuItem = bottomNavigationView.getMenu().getItem(position);
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-            }
-        });
-        setupViewPager(viewPager);
         view();
 
-//        bottomNavigationView.setOnNavigationItemSelectedListener((BottomNavigationView.OnNavigationItemSelectedListener) getApplicationContext());
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         bottomNavigationView.setSelectedItemId(R.id.home_nav);
         loadFragment(new HomeFragment());
 
@@ -234,6 +190,31 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         fillterAction();
     }
 
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            searchView.clearFocus();
+            switch (item.getItemId()) {
+                case R.id.home_nav:
+                    fragment = new HomeFragment();
+                    recyclerView.setVisibility(View.GONE);
+                    loadFragment(fragment);
+                    return true;
+                case R.id.person_nav:
+                    fragment = new PersonFragment();
+                    recyclerView.setVisibility(View.GONE);
+                    loadFragment(fragment);
+                    return true;
+                case R.id.like_nav:
+                    fragment = new LikeFragment();
+                    recyclerView.setVisibility(View.GONE);
+                    loadFragment(fragment);
+                    return true;
+            }
+            return false;
+        }
+    };
+
     private void fillterAction() {
         IntentFilter filter = new IntentFilter();
         filter.addAction(MainActivity.NOTIFY_PREVIOUS);
@@ -256,10 +237,8 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                 } else if (intent.getAction().equals(MainActivity.NOTIFY_PAUSE_PLAY)) {
                     if (mediaPlayer.isPlaying()) {
                         mediaPlayer.pause();
-                        btn_play_pause_show.setImageResource(R.drawable.ic_play_circle_outline_black_48dp);
                     } else {
                         mediaPlayer.start();
-                        btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
                     }
 
                 } else if (intent.getAction().equals(MainActivity.NOTIFY_NEXT)) {
@@ -276,18 +255,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
             }
         };
         registerReceiver(receiver, filter);
-
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        personFragment = new PersonFragment();
-        homeFragment = new HomeFragment();
-        likeFragment = new LikeFragment();
-        adapter.addFragment(personFragment);
-        adapter.addFragment(homeFragment);
-        adapter.addFragment(likeFragment);
-        viewPager.setAdapter(adapter);
     }
 
     private void view() {
@@ -355,41 +322,14 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
     private void loadFragment(Fragment fragment) {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.frame_container, fragment);
-        transaction.addToBackStack(null);
+        transaction.addToBackStack("TAG");
         transaction.commit();
     }
 
-//    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
-//        @Override
-//        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//            Fragment fragment;
-//            searchView.clearFocus();
-//            switch (item.getItemId()) {
-//                case R.id.home_nav:
-//
-//                    fragment = new HomeFragment();
-//                    recyclerView.setVisibility(View.GONE);
-//                    loadFragment(fragment);
-//                    return true;
-//                case R.id.person_nav:
-//                    fragment = new PersonFragment();
-//                    recyclerView.setVisibility(View.GONE);
-//                    loadFragment(fragment);
-//                    return true;
-//                case R.id.like_nav:
-//                    fragment = new LikeFragment();
-//                    recyclerView.setVisibility(View.GONE);
-//                    loadFragment(fragment);
-//                    return true;
-//            }
-//            return false;
-//        }
-//    };
 
     @Override
     public void playList(ArrayList<LikeSong> songArrayList, int position) {
         li_mp3_show.setVisibility(View.VISIBLE);
-        mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = new MediaPlayer();
         nameBH = String.valueOf(songArrayList.get(position).getName());
@@ -399,11 +339,8 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mediaPlayer.setDataSource(urlSong);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             mediaPlayer.prepare();
+            mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -411,7 +348,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         tv_nameBH_show.setText(nameBH);
         btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
 
-        mediaPlayer.start();
         showDialog();
         controlMusic();
         notification();
@@ -420,7 +356,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
     @Override
     public void onSongClick(ArrayList<Song> arrayList, int position) {
         li_mp3_show.setVisibility(View.VISIBLE);
-        mediaPlayer.stop();
         mediaPlayer.release();
         mediaPlayer = new MediaPlayer();
         songList = arrayList;
@@ -431,18 +366,14 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
         try {
             mediaPlayer.setDataSource(urlSong);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
             mediaPlayer.prepare();
+            mediaPlayer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
         tv_singer_show.setText(singer);
         tv_nameBH_show.setText(nameBH);
         btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
-        mediaPlayer.start();
         showDialog();
         controlMusic();
         notification();
@@ -479,7 +410,7 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                             mediaPlayer.start();
                             btn_play_pause_show.setImageResource(R.drawable.ic_pause_circle_outline_black_48dp);
                             btn_play_pause.setImageResource(R.drawable.ic_pause_circle_filled_black_60dp);
-                            playCycle();
+//                            playCycle();
                         }
                     }
                 });
@@ -555,7 +486,6 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
                 });
                 handler = new Handler();
                 seekBar.setMax(mediaPlayer.getDuration());
-                playCycle();
                 seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                     @Override
                     public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
@@ -574,8 +504,7 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
 
                     }
                 });
-                seekBar.setProgress(mediaPlayer.getCurrentPosition());
-                playCycle();
+                playSeekbar();
             }
         });
     }
@@ -652,12 +581,24 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         handler.postDelayed(runnable, 1000);
     }
 
+    public void playSeekbar() {
+        seekBar.setProgress(mediaPlayer.getCurrentPosition());
+        if (mediaPlayer.isPlaying())
+            runnable = new Runnable() {
+                @Override
+                public void run() {
+                    playSeekbar();
+                }
+            };
+        handler.postDelayed(runnable, 1000);
+    }
+
     @SuppressLint("RestrictedApi")
     private void notification() {
 
-        RemoteViews expandedView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.nofication);
-        NotificationCompat.Builder nc = new NotificationCompat.Builder(getApplicationContext());
-        NotificationManager nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        expandedView = new RemoteViews(getApplicationContext().getPackageName(), R.layout.nofication);
+        nc = new NotificationCompat.Builder(getApplicationContext());
+        nm = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         // The id of the channel.
         String id = "my_channel_01";
         // The user-visible name of the channel.
@@ -713,24 +654,128 @@ public class MainActivity extends AppCompatActivity implements InterfaceSearchCu
         view.setOnClickPendingIntent(R.id.btn_next_noti, pPause);
     }
 
+
+    private void outActivity() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        builder.setCancelable(true);
+        builder.setTitle("SpaceX");
+        builder.setMessage("Ra màn hình chính !");
+        builder.setPositiveButton("Có", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finish();
+            }
+        });
+        builder.setNegativeButton("Không", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        searchView.clearFocus();
-        recyclerView.setVisibility(View.GONE);
-        Toast.makeText(getApplicationContext(), "Chạm thêm lần nữa để thoát", Toast.LENGTH_LONG).show();
+    protected void onRestart() {
+        super.onRestart();
+        Toast.makeText(this, " On Restart", Toast.LENGTH_LONG).show();
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        mediaPlayer.pause();
-        mediaPlayer.stop();
-        mediaPlayer.release();
         if (receiver != null) {
             unregisterReceiver(receiver);
             receiver = null;
         }
+        super.onDestroy();
+        Toast.makeText(this, " On Destroy", Toast.LENGTH_LONG).show();
     }
 
+    public void saveData() {
+        SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREFERENCE_ARRAYLIST, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(songList);
+        editor.putString("array", json);
+        editor.apply();
+    }
+
+    @Override
+    protected void onResume() {
+        File file = new File("data/data/com.example.datpt.spacex/shared_prefs/Song.xml");
+        if (file.exists()) {
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREFERENCE_NAME, MODE_PRIVATE);
+            nameBH = sharedPreferences.getString("nameBH", "");
+            singer = sharedPreferences.getString("singer", "");
+            urlSong = sharedPreferences.getString("url", "");
+            duration = sharedPreferences.getInt("duration", 0);
+
+            mediaPlayer.release();
+            mediaPlayer = new MediaPlayer();
+            mediaPlayer.setAudioStreamType(AudioManager.STREAM_MUSIC);
+            try {
+                mediaPlayer.setDataSource(urlSong);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            mediaPlayer.setOnPreparedListener(this);
+            mediaPlayer.prepareAsync();
+
+            tv_singer_show.setText(singer);
+            tv_nameBH_show.setText(nameBH);
+
+        } else {
+            // do something
+        }
+        super.onResume();
+        Toast.makeText(this, "onResume", Toast.LENGTH_LONG).show();
+    }
+
+    public void onPrepared(MediaPlayer player) {
+        mediaPlayer.seekTo(duration);
+        player.start();
+        mediaPlayer.pause();
+        btn_play_pause_show.setImageResource(R.drawable.ic_play_circle_outline_black_48dp);
+        controlMusic();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Toast.makeText(this, " onStart ", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    protected void onStop() {
+        if (mediaPlayer.isPlaying()) {
+            mediaPlayer.pause();
+            int duration = mediaPlayer.getCurrentPosition();
+            SharedPreferences sharedPreferences = getSharedPreferences(SHARE_PREFERENCE_NAME, MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("nameBH", nameBH);
+            editor.putString("singer", singer);
+            editor.putString("url", urlSong);
+            editor.putInt("duration", duration);
+            editor.commit();
+        }
+        super.onStop();
+        Toast.makeText(this, "onStart", Toast.LENGTH_LONG).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        bottomNavigationView.setSelectedItemId(R.id.home_nav);
+        loadFragment(new HomeFragment());
+        outActivity();
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+
+        super.onPause();
+        Toast.makeText(this, "onPause", Toast.LENGTH_LONG).show();
+    }
 }

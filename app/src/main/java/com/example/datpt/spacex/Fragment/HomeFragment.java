@@ -113,9 +113,7 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
 
             }
         });
-
     }
-
     @Override
     public void onAlbmclick(int position) {
         String nameAlbum = String.valueOf(albumList.get(position).getNameAlbum());
@@ -125,7 +123,6 @@ public class HomeFragment extends Fragment implements InterfaceAlbumCustom {
         fragment.setArguments(bundle);
         FragmentTransaction manager = getFragmentManager().beginTransaction();
         manager.replace(R.id.frame_container, fragment);
-        manager.addToBackStack(null);
         manager.commit();
 
         Log.d("Namee----", nameAlbum);
